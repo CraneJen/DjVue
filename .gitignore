@@ -1,0 +1,13 @@
+# workspace setting
+.vscode/
+
+# javascript
+/node_modules/
+
+# python 
+*.py[cod]
+*$py.class
+__pycache__/
+
+# Database
+*.sqlite3

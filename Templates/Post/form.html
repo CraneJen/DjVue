@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+
+
+{% block post-list %}
+<form action="/create/" method="POST"> {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" , value="Create Post">
+</form>
+
+{% endblock post-list %}

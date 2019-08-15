@@ -1,0 +1,40 @@
+{% extends '../index.html' %}
+{% block post-list %}
+
+<div id="post">
+
+    <form id="formcheck" method="post">
+
+        <input type='hidden' id='csrf' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
+        <p v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in errors">[[error]]</li>
+            </ul>
+        </p>
+        <p>
+            <label for="title">Title:</label>
+            <input name="title" type="text" id="title" v-model="post.title">
+        </p>
+        <p>
+            <label for="content">Content:</label>
+            <input name="content" type="text" id="content" v-model="post.content">
+        </p>
+
+        <p>
+            <input type="submit" value="Submit" @click.prevent="addPost">
+        </p>
+    </form>
+
+    <div id="postlist">
+        <ul>
+            <li v-for="post in posts">
+                [[post.pk]]
+                [[post.fields.title]]
+                <p>[[post.fields.content]]</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock post-list %}

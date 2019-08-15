@@ -1,0 +1,11 @@
+html,
+body {
+    margin: 5px;
+    padding: 0;
+}
+
+.active {
+    color: brown;
+    font-size: 2em;
+    background-color: aqua;
+}

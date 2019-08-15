@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load staticfiles  %}
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div id="app">
+            <p>[[apptitle]]</p>
+        </div>
+        <div >
+            {% block post-list %}
+
+            {% endblock post-list %}
+        </div>
+
+        
+    </body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js">
+    </script> -->
+    <script type="text/javascript" src="{% static 'vuejs/vuejs.js' %}"></script>
+
+</html>
