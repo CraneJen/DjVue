@@ -16,20 +16,33 @@ class Home(ListView):
     template_name = 'home.html'
 
 
+def removeSubkey(objs):
+    rsp = []
+    myobjs = json.loads(objs)
+    for obj in myobjs:
+        newdict = {}
+        for key, item in obj.items():
+            if isinstance(item, dict):
+                newdict.update(item)
+            else:
+                newdict.update({key: item})
+        rsp.append(newdict)
+    return json.dumps(rsp)
+
+
 def postlist(request):
     objs = Post.objects.all()
 
-    jsondata = serializers.serialize('json', objs)
-    return HttpResponse(jsondata, content_type='application/json')
+    rsp = serializers.serialize('json', objs)
+    rsp = removeSubkey(rsp)
+    return HttpResponse(rsp, content_type='application/json')
 
 
+# json.dumps(rsp)
 def add(request):
     form = PostForm()
-
     context = {"form": form}
-
     if request.method == "POST":
-        # print(request.POST['title'])
         title = request.POST['title']
         content = request.POST['content']
 
@@ -38,7 +51,6 @@ def add(request):
     return render(request, 'Post/form.html', context=context)
 
 
-@csrf_exempt
 def create(request):
     if request.method == "POST":
         data = json.loads(request.body.decode('utf-8'))
@@ -46,5 +58,8 @@ def create(request):
         content = data['content']
 
         p = Post.objects.create(title=title, content=content)
-        print(p)
-        return HttpResponse('')
+        rsp = serializers.serialize('json', [
+            p,
+        ])
+        rsp = removeSubkey(rsp)
+        return HttpResponse(rsp)

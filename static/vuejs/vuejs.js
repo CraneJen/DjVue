@@ -1,6 +1,10 @@
 // import Vue from '../../node_modules/vue/dist/vue.esm'
 // Vue.options.delimiters = ['${', '}'];
 
+// import axios from 'axios';
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+
 var app = new Vue({
     el: "#app",
     delimiters: ['[[', ']]'],
@@ -31,43 +35,36 @@ var app = new Vue({
 //     // }
 // })
 
-// var token = $('input[name="csrfmiddlewaretoken"]').prop('value');
-// console.console(token)
-
 var app2 = new Vue({
     el: "#post",
     delimiters: ['[[', ']]'],
     data: {
         errors: [],
-        post: {
-            title: null,
-            content: null,
-        },
+        content: "",
+        title: "",
         apptitle: "Django",
-        posts: null,
+        posts: [],
     },
-    mounted: function () {
-        this.showPost()
+    created: function () {
+        this.init()
     },
     methods: {
-        addPost() {
-            var sp = this;
-            // var csrf = document.getElementById("csrf").value;
+        submit() {
+            var csrftoken = document.getElementById("csrf").value;
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            }
             axios.post('http://127.0.0.1:8000/create/', {
-                content: this.post.title,
-                title: this.post.content,
-            }).then(resp => (console.log(resp, this.showPost(), this.post = {}))
-                // function (response) {
-                //     sp.showPost();
-                //     sp.post = {};
-                //     console.log(response);
-                // }
-            ).catch(function (error) {
-                console.log(error);
-                sp.errors.push(error)
-            });
+                content: this.content, title: this.title
+            }, { headers: headers }).then(resp => (
+                this.posts.unshift(resp.data[0]),
+                this.content = "",
+                this.title = ""
+            )
+            ).catch(error => this.errors.push(error));
         },
-        showPost() {
+        init() {
             axios
                 .get('http://127.0.0.1:8000/list/')
                 .then(response => (this.posts = response.data))

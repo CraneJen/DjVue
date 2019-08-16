@@ -1,9 +1,9 @@
 {% extends '../index.html' %}
 {% block post-list %}
 
-<div id="post">
 
-    <form id="formcheck" method="post">
+<div id="post">
+    <form v-on:submit.prevent="submit" method="post">
 
         <input type='hidden' id='csrf' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
         <p v-if="errors.length">
@@ -14,27 +14,25 @@
         </p>
         <p>
             <label for="title">Title:</label>
-            <input name="title" type="text" id="title" v-model="post.title">
+            <input name="title" type="text" id="title" v-model="title">
         </p>
         <p>
             <label for="content">Content:</label>
-            <input name="content" type="text" id="content" v-model="post.content">
+            <textarea name="content" id="content" v-model="content" cols="100" rows="10"></textarea>
         </p>
-
         <p>
-            <input type="submit" value="Submit" @click.prevent="addPost">
+            <button class="btn" type="submit">Submit</button>
+            <!-- <input type="submit" value="Submit"> -->
         </p>
     </form>
 
-    <div id="postlist">
+    <div>
         <ul>
-            <li v-for="post in posts">
-                [[post.pk]]
-                [[post.fields.title]]
-                <p>[[post.fields.content]]</p>
+            <li v-for="p in posts">
+                <h3><small>[[p.pk]].</small> [[p.title]]</h3>
+                <p>[[p.content]]</p>
             </li>
         </ul>
     </div>
 </div>
-
 {% endblock post-list %}
