@@ -1,10 +1,12 @@
 {% extends '../index.html' %}
 {% block post-list %}
+{% load custom_template_tag %}
+{% pubkey as key %}
 
 
 <div id="post">
     <form v-on:submit.prevent="submit" method="post">
-
+        <input type="hidden" id="pubkey" value="{{key}}">
         <input type='hidden' id='csrf' name='csrfmiddlewaretoken' value='{{ csrf_token }}' />
         <p v-if="errors.length">
             <b>Please correct the following error(s):</b>

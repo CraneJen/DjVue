@@ -1,6 +1,8 @@
 # workspace setting
 .vscode/
 
+# RSA
+*.pem
 # javascript
 /node_modules/
 

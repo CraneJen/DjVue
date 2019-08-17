@@ -46,17 +46,21 @@ var app2 = new Vue({
         posts: [],
     },
     created: function () {
-        this.init()
+        this.init();
     },
     methods: {
         submit() {
             var csrftoken = document.getElementById("csrf").value;
+            var pubkey = document.getElementById('pubkey').value;
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey(window.atob(pubkey));
+            encrypted = encrypt.encrypt(this.content);
             const headers = {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             }
             axios.post('http://127.0.0.1:8000/create/', {
-                content: this.content, title: this.title
+                content: encrypted, title: this.title
             }, { headers: headers }).then(resp => (
                 this.posts.unshift(resp.data[0]),
                 this.content = "",
